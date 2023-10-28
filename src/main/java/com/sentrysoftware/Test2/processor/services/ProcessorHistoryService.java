@@ -20,7 +20,7 @@ public class ProcessorHistoryService {
 
         if (response.getStatusCode().is2xxSuccessful()) {
             HistoricalDataResponse historicalDataResponse = response.getBody();
-            List<HistoricalDataDTO> historicalData = historicalDataResponse.getHistory();
+            List<HistoricalDataDTO> historicalData = historicalDataResponse.history();
 
             String historicalDataString = historicalData.toString();
             System.out.println("Historical Data: " + historicalDataString);
@@ -32,7 +32,7 @@ public class ProcessorHistoryService {
     }
     public double calculateMinValue(List<HistoricalDataDTO> historicalData) {
         double minValue = historicalData.stream()
-                .mapToDouble(HistoricalDataDTO::getValue)
+                .mapToDouble(HistoricalDataDTO::value)
                 .min()
                 .orElse(0.0);
         System.out.println("Min Value: " + minValue);
@@ -40,7 +40,7 @@ public class ProcessorHistoryService {
     }
     public double calculateMaxValue(List<HistoricalDataDTO> historicalData) {
         double maxValue = historicalData.stream()
-                .mapToDouble(HistoricalDataDTO::getValue)
+                .mapToDouble(HistoricalDataDTO::value)
                 .max()
                 .orElse(0.0);
         System.out.println("Max Value: " + maxValue);
@@ -48,7 +48,7 @@ public class ProcessorHistoryService {
     }
     public double calculateAvgValue(List<HistoricalDataDTO> historicalData) {
         double avgValue = historicalData.stream()
-                .mapToDouble(HistoricalDataDTO::getValue)
+                .mapToDouble(HistoricalDataDTO::value)
                 .average()
                 .orElse(0.0);
         System.out.println("Average Value: " + avgValue);

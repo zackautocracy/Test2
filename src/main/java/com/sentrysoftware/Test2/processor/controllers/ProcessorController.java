@@ -21,14 +21,18 @@ import java.util.concurrent.CompletableFuture;
 @RequestMapping(path = "processors")
 @Tag(name = "Processor Controller", description = "Processor Controller")
 public class ProcessorController {
-
+    public enum CalculationType {
+        MIN,
+        MAX,
+        AVG
+    }
     @Autowired
     private ProcessorService processorService;
 
     @Autowired
     private ProcessorHistoryService processorHistoryService;
 
-    @Operation(summary = "Get a list of processor IDs")
+    @Operation(summary = "Get processor IDs")
     @GetMapping
     public List<String> getProcessorData() {
         return processorService.getAllProcessorIds();
@@ -46,7 +50,7 @@ public class ProcessorController {
                     in = ParameterIn.QUERY,
                     description = "Processor ID",
                     required = true,
-                    example = "12345"
+                    example = "CPU_0"
             )
             @RequestParam String processorId,
 
@@ -54,7 +58,7 @@ public class ProcessorController {
                     in = ParameterIn.QUERY,
                     description = "Maximum number of data points",
                     required = true,
-                    example = "100"
+                    example = "500"
             )
             @RequestParam int max,
 
@@ -70,22 +74,21 @@ public class ProcessorController {
 
         return historicalData.thenApply(data -> {
             double result = 0.0;
-
-            switch (calculation) {
-                case "min":
+            CalculationType calcType = CalculationType.valueOf(calculation.toUpperCase());
+            switch (calcType) {
+                case MIN:
                     result = processorHistoryService.calculateMinValue(data);
                     break;
-                case "max":
+                case MAX:
                     result = processorHistoryService.calculateMaxValue(data);
                     break;
-                case "avg":
+                case AVG:
                     result = processorHistoryService.calculateAvgValue(data);
                     break;
                 default:
-                    System.out.println("calculation type not compatible");
+                    System.out.println("Calculation type not compatible");
                     break;
             }
-
             return new ProcessorDataSummary(processorId, calculation, result);
         });
     }
