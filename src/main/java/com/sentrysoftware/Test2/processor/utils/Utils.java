@@ -5,6 +5,7 @@ import com.sentrysoftware.Test2.processor.models.HistoricalDataDTO;
 import java.util.List;
 
 public class Utils {
+
     public static double calculateMinValue(List<HistoricalDataDTO> historicalData) {
         double minValue = historicalData.stream()
                 .mapToDouble(HistoricalDataDTO::value)
