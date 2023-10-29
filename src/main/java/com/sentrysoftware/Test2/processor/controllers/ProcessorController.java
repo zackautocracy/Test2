@@ -32,11 +32,11 @@ public class ProcessorController {
     @Autowired
     private ProcessorHistoryService processorHistoryService;
 
-    @Operation(summary = "Get processor IDs")
-    @GetMapping
-    public List<String> getProcessorData() {
-        return processorService.getAllProcessorIds();
-    }
+//    @Operation(summary = "Get processor IDs")
+//    @GetMapping
+//    public List<String> getProcessorData() {
+//        return processorService.getAllProcessorIds();
+//    }
 
     @Operation(summary = "Get historical data summary for a processor")
     @ApiResponse(
